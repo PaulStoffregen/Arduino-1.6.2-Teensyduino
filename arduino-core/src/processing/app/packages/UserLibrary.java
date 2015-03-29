@@ -51,6 +51,7 @@ public class UserLibrary extends ContributedLibrary {
   private String website;
   private String category;
   private String license;
+  private boolean showPathname;
   private List<String> architectures;
   private List<String> types;
   private List<String> declaredTypes;
@@ -249,6 +250,14 @@ public class UserLibrary extends ContributedLibrary {
   @Override
   public String getUrl() {
     return null;
+  }
+
+  public boolean getShowPathname() {
+    return showPathname;
+  }
+
+  public void setShowPathname() {
+    showPathname = true;
   }
 
   @Override
