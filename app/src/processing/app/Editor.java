@@ -737,37 +737,33 @@ public class Editor extends JFrame implements RunnerListener {
       public void menuCanceled(MenuEvent e) {}
       public void menuDeselected(MenuEvent e) {}
       public void menuSelected(MenuEvent e) {
-        //System.out.println("Tools menu selected.");
-
-/* TODO: 1.6.2 broke this...
-        for (JMenu menu : boardsMenus) {
-          // for each option in the tools menu, add the currently
-	  // selected item, which makes seeing the setting easier
-	  String name = menu.getText();
-          if (name == null) continue;
-	  //System.out.println("menu: " + name);
-	  String basename = name;
-	  int index = name.indexOf(':');
-	  if (index > 0) basename = name.substring(0, index);
-          String sel = null;
-          for (int i=0; i < menu.getItemCount(); i++) {
-            JMenuItem item = menu.getItem(i);
-            if (item != null && item.isSelected()) {
-              sel = item.getText();
-              if (sel != null) break;
+        populatePortMenu();
+        for (Component c : toolsMenu.getMenuComponents()) {
+          if ((c instanceof JMenu) && c.isVisible()) {
+            JMenu menu = (JMenu)c;
+            String name = menu.getText();
+            if (name == null) continue;
+            String basename = name;
+            int index = name.indexOf(':');
+            if (index > 0) basename = name.substring(0, index);
+            String sel = null;
+            int count = menu.getItemCount();
+            for (int i=0; i < count; i++) {
+              JMenuItem item = menu.getItem(i);
+              if (item != null && item.isSelected()) {
+                sel = item.getText();
+                if (sel != null) break;
+              }
+            }
+            if (sel == null) {
+              if (!name.equals(basename)) menu.setText(basename);
+            } else {
+              if (sel.length() > 17) sel = sel.substring(0, 16) + "...";
+              String newname = basename + ": \"" + sel + "\"";
+              if (!name.equals(newname)) menu.setText(newname);
             }
           }
-          if (sel == null) {
-	    if (!name.equals(basename)) menu.setText(basename);
-          } else {
-	    //System.out.println("  " + sel + " selected");
-	    if (sel.length() > 24) sel = sel.substring(0, 23) + "...";
-            String newname = basename + ": \"" + sel + "\"";
-            if (!name.equals(newname)) menu.setText(newname);
-          }
         }
-*/
-        populatePortMenu();
       }
     });
 
@@ -1036,11 +1032,11 @@ public class Editor extends JFrame implements RunnerListener {
     if (BaseNoGui.isTeensyduino()) {
       if (BaseNoGui.getBoardPreferences().get("fake_serial") != null) {
         serialMenu.setEnabled(false);
-        serialMenu.setText("Serial Port: (emulated)");
+        serialMenu.setText("Port (emulated serial)");
         return;
       }
     }
-    boolean anychecked = false;
+    serialMenu.setText("Port");
 
     String selectedPort = Preferences.get("serial.port");
 
@@ -1074,13 +1070,10 @@ public class Editor extends JFrame implements RunnerListener {
       String address = port.getAddress();
       String label = port.getLabel();
 
-      if (address.equals(selectedPort)) anychecked = true;
       JCheckBoxMenuItem item = new JCheckBoxMenuItem(label, address.equals(selectedPort));
       item.addActionListener(new SerialMenuListener(this, address, port.getPrefs().get("warning")));
       serialMenu.add(item);
     }
-    if (anychecked) serialMenu.setText("Port: \"" + selectedPort + "\"");
-    else serialMenu.setText("Port");
 
     serialMenu.setEnabled(serialMenu.getMenuComponentCount() > 0);
   }
