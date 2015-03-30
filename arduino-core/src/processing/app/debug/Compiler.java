@@ -372,7 +372,7 @@ public class Compiler implements MessageConsumer {
     if (prefs.getFile("build.variant.path") != null)
       includeFolders.add(prefs.getFile("build.variant.path"));
     for (UserLibrary lib : importedLibraries) {
-      if (verbose || lib.getShowPathname()) {
+      if (verbose) {
         String legacy = "";
         if (lib instanceof LegacyUserLibrary)
           legacy = "(1.0.x format)";
