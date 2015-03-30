@@ -448,7 +448,7 @@ public class Compiler implements MessageConsumer {
 
   private void adviseDuplicateLibraries() {
     for (int i=0; i < importedDuplicateHeaders.size(); i++) {
-      System.out.println(I18n.format(_("Multiple libraries were found for \"{0}\" in this sketch"),
+      System.out.println(I18n.format(_("Multiple libraries were found for \"{0}\""),
         importedDuplicateHeaders.get(i)));
       boolean first = true;
       for (UserLibrary lib : importedDuplicateLibraries.get(i)) {
