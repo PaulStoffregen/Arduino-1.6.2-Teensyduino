@@ -46,6 +46,8 @@
   <condition property="launch4j-download-unpack-target-name" value="launch4j-windows"><os family="windows" /></condition>
   <property name="launch4j-download-unpack-target-name" value="launch4j-linux"/>
 
+  <property name="MACOSX_BUNDLED_JVM" value="${java.home}/../"/>
+
   <!-- Libraries required for running arduino -->
   <fileset dir=".." id="runtime.jars">
     <include name="arduino-core/arduino-core.jar" />
@@ -258,6 +260,7 @@
     <fail unless="MACOSX_BUNDLED_JVM" message="MacOSX requires MACOSX_BUNDLED_JVM property set"/>
     <mkdir dir="${staging_folder}/work" />
 
+    <!--
     <antcall target="unzip">
       <param name="archive_file" value="${staging_folder}/appbundler-1.0ea-upstream1.jar.zip" />
       <param name="archive_url" value="http://arduino.cc/download.php?f=/appbundler-1.0ea-upstream1.jar.zip" />
@@ -295,6 +298,7 @@
       <option value="-Dcom.apple.macos.use-file-dialog-packages=true"/>
       <option value="-Dcom.apple.smallTabs=true"/>
       <option value="-Dcom.apple.macos.useScreenMenuBar=true" />
+      -->
 
       <!--
       <option value="-Dapple.awt.showGrowBox=false"/>
@@ -307,6 +311,7 @@
       <!--<option value="-Dcom.apple.macos.useScreenMenuBar=true"/>-->
 
       <!-- Workaround since the icon parameter for bundleapp doesn't work -->
+      <!--
       <option value="-Xdock:name=Arduino"/>
       <option value="-Dcom.apple.mrj.application.apple.menu.about.name=Arduino"/>
       <option value="-Dfile.encoding=UTF-8"/>
@@ -331,6 +336,7 @@
     </copy>
 
     <antcall target="macosx-build-common"/>
+      -->
 
   </target>
 
